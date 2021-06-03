@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MovingPercon : MonoBehaviour
 {
     
     GameObject camera;
     CharacterController ch;
-    public Transform camera_0y0;
-
+   
+   
     [Range(0, 10)]
     public float speed;
     [Range(0, 10)]
@@ -91,7 +92,9 @@ public class MovingPercon : MonoBehaviour
        
         
     }
-    public void SecondMoving(bool go,Vector3 point)
+
+   
+    public void SecondMoving(bool go,Vector3 point, NavMeshAgent agent)
     {
         if (go && !second)
         {
@@ -99,24 +102,16 @@ public class MovingPercon : MonoBehaviour
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
                 second = true;
-                VarMoving = true;
+                VarMoving = true; agent.enabled = false;
             }
-            Anim.SetBool("Moving", true);
-            if (Vector3.Angle(Vector3.forward, point) > 1f || Vector3.Angle(Vector3.forward, point) == 0)
+            if (agent.speed > 0)
             {
-                Vector3 relativePos = new Vector3(point.x, transform.position.y,point.z)- transform.position;
-
-                // the second argument, upwards, defaults to Vector3.up
-                Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
-                transform.rotation = rotation;
+                Anim.SetBool("Moving", true);
             }
-
-            Vector3 targetPose = new Vector3(point.x, GravityMode, point.z) - transform.position;
-
-            if (Vector3.Distance(transform.position, point) > 1f) ch.Move(targetPose * speedPoint * Time.deltaTime);
-               
-            if (Vector3.Distance(transform.position, point) < 1.2f)
+            if (Vector3.Distance( transform.position, point) <.1f)
             {
+                agent.enabled = false;
+
                 VarMoving = true;
                 second = true;
                 Anim.SetBool("Moving", false);

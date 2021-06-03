@@ -6,17 +6,19 @@ TagManager:
   tags:
   - KatScene
   - Ground
+  - Enemy
+  - Gem
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Black-White
   - Water
   - UI
+  - Player
   - 
-  - 
-  - 
-  - 
+  - PostProcessing
+  - Enemy
   - 
   - 
   - 
